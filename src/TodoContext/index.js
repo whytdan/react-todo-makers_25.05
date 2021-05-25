@@ -38,11 +38,17 @@ export default function TodoContextProvider(props) {
     dispatch(action);
   };
 
+  const createTodo = async (data) => {
+    await axios.post(`${URL}/todos`, data);
+    fetchTodos();
+  };
+
   return (
     <todoContext.Provider
       value={{
         todoList: state.todoList,
-        fetchTodos: fetchTodos,
+        fetchTodos,
+        createTodo,
       }}
     >
       {props.children}

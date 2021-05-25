@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { todoContext } from '../../TodoContext';
 import classes from '../todo.module.css';
 
 export default function Form() {
   const [title, setTitle] = useState('');
 
+  const { createTodo } = useContext(todoContext);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // submit data to server
+    const data = {
+      title,
+      isDone: false,
+    };
+    createTodo(data);
     setTitle('');
   };
 

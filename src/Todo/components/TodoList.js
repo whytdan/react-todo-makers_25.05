@@ -17,7 +17,11 @@ export default function TodoList() {
     fetchTodos();
   }, []);
 
-  console.log(todoList);
-
-  return <ul className={classes.todoList}></ul>;
+  return (
+    <ul className={classes.todoList}>
+      {todoList.map((todo) => (
+        <TodoItem data={todo} key={todo.id} />
+      ))}
+    </ul>
+  );
 }
