@@ -1,17 +1,11 @@
 import classes from '../todo.module.css';
 import React, { useState } from 'react';
 
-export default function TodoEdit(props) {
-  const { currentTitle, todoList, setTodoList, index, setEditingTodo } = props;
-
-  const [title, setTitle] = useState(currentTitle);
+export default function TodoEdit() {
+  const [title, setTitle] = useState('');
 
   const handleEdit = (e) => {
     e.preventDefault();
-    setTodoList(
-      todoList.map((todo, i) => (i === index ? { ...todo, title } : todo))
-    );
-    setEditingTodo(null);
   };
 
   return (

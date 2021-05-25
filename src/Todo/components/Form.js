@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import classes from '../todo.module.css';
 
-export default function Form(props) {
-  const { todoList, setTodoList } = props;
-
+export default function Form() {
   const [title, setTitle] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setTodoList([...todoList, { title, isDone: false }]);
-    setTitle(''); // new
+    // submit data to server
+    setTitle('');
   };
 
   return (

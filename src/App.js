@@ -1,11 +1,12 @@
 import React from 'react';
 import Todo from './Todo';
+import TodoContextProvider from './TodoContext';
 
 function App() {
   return (
-    <div className="App">
+    <TodoContextProvider>
       <Todo />
-    </div>
+    </TodoContextProvider>
   );
 }
 
