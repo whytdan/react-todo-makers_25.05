@@ -5,12 +5,23 @@ const INIT_STATE = {
   todoList: [],
 };
 
+// reducer must return new state
 const reducer = (state = INIT_STATE, action) => {
   switch (action.type) {
     case 'SET_TODOLIST':
       return {
         ...state,
         todoList: action.payload,
+      };
+    case 'ADD_TODO':
+      return {
+        ...state,
+        todoList: [...state.todoList, action.payload],
+      };
+    case 'DELETE_TODO':
+      return {
+        ...state,
+        todoList: state.todoList.filter((todo) => todo.id !== action.payload),
       };
     default:
       return state;
@@ -30,6 +41,7 @@ export default function TodoContextProvider(props) {
 
     const todos = response.data;
 
+    // action always obj with two keys
     const action = {
       type: 'SET_TODOLIST',
       payload: todos,
@@ -38,9 +50,23 @@ export default function TodoContextProvider(props) {
     dispatch(action);
   };
 
-  const createTodo = async (data) => {
-    await axios.post(`${URL}/todos`, data);
-    fetchTodos();
+  const createTodo = async (todo) => {
+    const { data } = await axios.post(`${URL}/todos`, todo);
+
+    // fetchTodos();
+    dispatch({
+      type: 'ADD_TODO',
+      payload: data,
+    });
+  };
+
+  const deleteTodo = async (id) => {
+    await axios.delete(`${URL}/todos/${id}`);
+
+    dispatch({
+      type: 'DELETE_TODO',
+      payload: id,
+    });
   };
 
   return (
@@ -49,6 +75,7 @@ export default function TodoContextProvider(props) {
         todoList: state.todoList,
         fetchTodos,
         createTodo,
+        deleteTodo,
       }}
     >
       {props.children}
