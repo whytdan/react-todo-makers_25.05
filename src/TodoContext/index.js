@@ -36,6 +36,13 @@ const reducer = (state = INIT_STATE, action) => {
         ...state,
         editTodoId: action.payload,
       };
+    case 'EDIT_TODO':
+      return {
+        ...state,
+        todoList: state.todoList.map((todo) =>
+          todo.id === action.payload.id ? action.payload : todo
+        ),
+      };
     default:
       return state;
   }
@@ -97,15 +104,28 @@ export default function TodoContextProvider(props) {
     });
   };
 
+  const changeTodo = async (id, title) => {
+    const { data } = await axios.patch(`${URL}/todos/${id}`, { title });
+    console.log(data);
+
+    dispatch({
+      type: 'EDIT_TODO',
+      payload: data,
+    });
+    changeEditId(null);
+  };
+
   return (
     <todoContext.Provider
       value={{
         todoList: state.todoList,
+        editId: state.editTodoId,
         fetchTodos,
         createTodo,
         deleteTodo,
         changeIsDoneStatus,
         changeEditId,
+        changeTodo,
       }}
     >
       {props.children}

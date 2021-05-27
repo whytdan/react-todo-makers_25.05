@@ -30,7 +30,12 @@ export default function TodoItem(props) {
         src={cancelImg}
         alt="cancel-img"
       />
-      <img className={classes.editIcon} src={editImg} alt="edit-img" />
+      <img
+        onClick={() => changeEditId(id)}
+        className={classes.editIcon}
+        src={editImg}
+        alt="edit-img"
+      />
     </li>
   );
 }
