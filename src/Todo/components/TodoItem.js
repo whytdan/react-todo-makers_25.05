@@ -7,17 +7,23 @@ import classes from '../todo.module.css';
 export default function TodoItem(props) {
   const { title, isDone, id } = props.data;
 
-  const { deleteTodo } = useContext(todoContext);
+  const { deleteTodo, changeIsDoneStatus, changeEditId } =
+    useContext(todoContext);
 
   const handleDelete = () => {
     // call function to delete item (from context)
     deleteTodo(id);
   };
 
+  const handleIsDoneChange = () => {
+    // call function to reverse isDone status of todo
+    changeIsDoneStatus(id, isDone);
+  };
+
   return (
     <li>
-      <p>{title}</p>
-      <input value={isDone} type="checkbox" />
+      <p className={isDone ? classes.lineThrough : ''}>{title}</p>
+      <input onChange={handleIsDoneChange} checked={isDone} type="checkbox" />
       <img
         onClick={handleDelete}
         className={classes.cancelIcon}

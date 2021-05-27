@@ -126,3 +126,7 @@
   color: #fff;
   margin-left: 10px;
 }
+
+.lineThrough {
+  text-decoration: line-through;
+}

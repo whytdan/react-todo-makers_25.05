@@ -1,16 +1,6 @@
 {
   "todos": [
     {
-      "title": "Hello World!",
-      "isDone": false,
-      "id": 8
-    },
-    {
-      "title": "Test",
-      "isDone": false,
-      "id": 9
-    },
-    {
       "title": "Test",
       "isDone": false,
       "id": 10

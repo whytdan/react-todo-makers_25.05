@@ -3,6 +3,7 @@ import React, { useReducer } from 'react';
 
 const INIT_STATE = {
   todoList: [],
+  editTodoId: null,
 };
 
 // reducer must return new state
@@ -22,6 +23,18 @@ const reducer = (state = INIT_STATE, action) => {
       return {
         ...state,
         todoList: state.todoList.filter((todo) => todo.id !== action.payload),
+      };
+    case 'CHANGE_TODO_STATUS':
+      return {
+        ...state,
+        todoList: state.todoList.map((todo) =>
+          todo.id === action.payload ? { ...todo, isDone: !todo.isDone } : todo
+        ),
+      };
+    case 'CHANGE_EDIT_ID':
+      return {
+        ...state,
+        editTodoId: action.payload,
       };
     default:
       return state;
@@ -69,6 +82,21 @@ export default function TodoContextProvider(props) {
     });
   };
 
+  const changeIsDoneStatus = async (id, prevIsDone) => {
+    dispatch({
+      type: 'CHANGE_TODO_STATUS',
+      payload: id,
+    });
+    await axios.patch(`${URL}/todos/${id}`, { isDone: !prevIsDone });
+  };
+
+  const changeEditId = (id) => {
+    dispatch({
+      type: 'CHANGE_EDIT_ID',
+      payload: id,
+    });
+  };
+
   return (
     <todoContext.Provider
       value={{
@@ -76,6 +104,8 @@ export default function TodoContextProvider(props) {
         fetchTodos,
         createTodo,
         deleteTodo,
+        changeIsDoneStatus,
+        changeEditId,
       }}
     >
       {props.children}
